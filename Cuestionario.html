@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cuestionario</title>
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Cuestionario </h1>
+        <p>
+          Enfoque: <b>Practicar</b>
+        </p>
+      </div>
+      <div class="pills">
+        <div class="pill" id="pillCount">—</div>
+        <div class="pill alt" id="pillMode">Modo: Practica</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card" aria-live="polite">
+        <div id="quiz"></div>
+
+        <div class="controls">
+          <button class="btn" id="prev">⟵ Anterior</button>
+          <div class="controlsRight">
+            <button class="btn ghost" id="jump">Ir a pregunta</button>
+            <button class="btn primary" id="next">Siguiente ⟶</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="card side">
+        <div class="metric"><b>Progreso</b><span id="progressText">0/0</span></div>
+        <div class="progress" aria-label="Progreso"><div class="bar" id="bar"></div></div>
+
+        <div class="toggle">
+          <input type="checkbox" id="shuffle" checked />
+          <label for="shuffle"><b>Orden aleatorio</b> (preguntas y opciones)</label>
+        </div>
+
+        <div class="toggle">
+          <input type="checkbox" id="showExp" />
+          <label for="showExp"><b>Mostrar explicaciones</b> en la revisión final</label>
+        </div>
+
+        <p class="mini" style="margin-top:12px">
+          Creado Por <b>Johnatan Diaz Ortiz</b>,
+          para <b>Practicar</b> y Aumentar el <b> Conocimiento</b> 
+        </p>
+
+        <div class="result" id="result">
+          <hr class="hr" />
+          <div class="metric"><b>Resultado</b><span>Resumen</span></div>
+
+          <div class="scoreRow">
+            <div>
+              <div class="big" id="score">0/0</div>
+              <div id="level" class="badge mid">Nivel</div>
+            </div>
+            <div class="controlsRight">
+              <button class="btn" id="restart">↻ Reiniciar</button>
+              <button class="btn" id="export">⬇ Exportar JSON</button>
+            </div>
+          </div>
+
+          <div class="kpiGrid" id="kpiGrid"></div>
+          <div class="cards" id="review"></div>
+
+          <div class="footer">
+             <p>&copy; Escor400 </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  
+  <script src="questions.js"></script>
+
+  <script src="app.js"></script>
+</body>
+
+
+</html>
