@@ -25,7 +25,7 @@
     <div class="grid">
       <section class="card" aria-live="polite">
         <div id="quiz"></div>
-
+        
         <div class="controls">
           <button class="btn" id="prev">⟵ Anterior</button>
           <div class="controlsRight">
@@ -48,7 +48,20 @@
           <input type="checkbox" id="showExp" />
           <label for="showExp"><b>Mostrar explicaciones</b> en la revisión final</label>
         </div>
-
+<!-- NUEVO: Selector de cantidad de preguntas -->
+<div class="toggle">
+  <label for="questionCount"><b>Cantidad de preguntas:</b></label>
+  <select id="questionCount">
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="9999" selected>Todo el banco</option>
+  </select>
+</div>
+        
         <p class="mini" style="margin-top:12px">
           Creado Por <b>Johnatan Diaz Ortiz</b>,
           para <b>Practicar</b> y Aumentar el <b> Conocimiento</b> 
