@@ -35,34 +35,47 @@ const elShowExp = document.getElementById('showExp');
 function deepClone(obj){ return JSON.parse(JSON.stringify(obj)); }
 
 function shuffleArray(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
 }
 
+// ---- Construcción del orden (usa el selector questionCount)
 function buildOrder(){
-  // BANK viene desde questions.js
-  let items = BANK.map((q, idx) => ({...deepClone(q), id: idx}));
+  // 1) Leer el selector (si no existe aún, asumir todo el banco)
+  const select = document.getElementById("questionCount");
+  const requested = select ? Number(select.value) : Number.POSITIVE_INFINITY;
 
-  if(state.shuffled) items = shuffleArray(items);
+  // 2) Clonar el banco completo y asignar id
+  let items = BANK.map((q, idx) => ({ ...deepClone(q), id: idx }));
 
-  if(state.shuffled){
+  // 3) Mezclar preguntas si shuffle está activo
+  if (state.shuffled) items = shuffleArray(items);
+
+  // 4) Limitar cantidad según el selector
+  const limit = Math.min(requested, items.length);
+  items = items.slice(0, limit);
+
+  // 5) Mezclar opciones de cada pregunta si shuffle está activo
+  if (state.shuffled){
     items = items.map(item => {
-      const pairs = item.opts.map((t, idx) => ({t, idx}));
+      const pairs = item.opts.map((t, idx) => ({ t, idx }));
       shuffleArray(pairs);
       const newOpts = pairs.map(p => p.t);
       const newA = pairs.findIndex(p => p.idx === item.a);
-      return {...item, opts: newOpts, a: newA};
+      return { ...item, opts: newOpts, a: newA };
     });
   }
 
+  // 6) Resetear estado
   state.order = items;
   state.answers = Array(items.length).fill(null);
   state.i = 0;
   state.finished = false;
 
+  // 7) Actualizar contador visual
   elPillCount.textContent = `${items.length} preguntas • ${items.length} pts • 1 correcta`;
 }
 
@@ -245,6 +258,21 @@ elShowExp.addEventListener('change', (e) => {
   if(state.finished) state._lastGrade = grade();
 });
 
+// 👉 Listener del selector de cantidad (UBICADO FUERA de export)
+const elQuestionCount = document.getElementById('questionCount');
+if (elQuestionCount) {
+  // (Opcional) restaurar última selección persistida
+  const saved = localStorage.getItem('quiz.questionCount');
+  if (saved && [...elQuestionCount.options].some(o => o.value === saved)) {
+    elQuestionCount.value = saved;
+  }
+  elQuestionCount.addEventListener('change', () => {
+    localStorage.setItem('quiz.questionCount', elQuestionCount.value);
+    buildOrder();
+    render();
+  });
+}
+
 elExport.addEventListener('click', () => {
   if(!state.finished || !state._lastGrade){
     alert('Primero finaliza el cuestionario para exportar resultados.');
@@ -271,7 +299,7 @@ elExport.addEventListener('click', () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'resultado_cuestionario_json';
+  a.download = 'resultado_cuestionario.json';
   document.body.appendChild(a);
   a.click();
   a.remove();
