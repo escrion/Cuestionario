@@ -592,7 +592,7 @@ const BANK = [
     "Impedimentos para la prueba.",
     "Cobertura de rama alcanzada;",
     "Avances de la prueba.",
-    "evos riesgos dentro del ciclo de prueba"
+    "Los riesgos dentro del ciclo de prueba"
   ], a: 1, exp: "  "
 },
 
@@ -1134,4 +1134,5 @@ const BANK = [
 },
 
 ];
+
 ``
